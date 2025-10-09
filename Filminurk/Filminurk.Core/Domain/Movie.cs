@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace Filminurk.Core.Domain
 {
+    public enum Genre
+    {
+        Horror,Action,Superhero,Anime,Romance,Comedy,AISlop,Documentary,MadeForTv,Cartoon,Silent,FilmNoir
+    }
     public class Movie
     {
         public Guid ID { get; set; }
@@ -18,6 +22,9 @@ namespace Filminurk.Core.Domain
         //public List<UserComment>? Reviews { get; set; }
 
         /* 3 õpilase valitud andmetüüpi */
+        public string? CountryOfOrigin { get; set; }
+        public Genre? MovieGenre { get; set; }
+        public Genre? SubGenre { get; set; }
 
     }
 }
