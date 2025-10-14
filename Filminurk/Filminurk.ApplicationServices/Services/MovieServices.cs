@@ -1,5 +1,6 @@
 ﻿using Filminurk.Core.Domain;
 using Filminurk.Core.Dto;
+using Filminurk.Core.ServiceInterface;
 using Filminurk.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -40,10 +41,11 @@ namespace Filminurk.ApplicationServices.Services
 
             return movie;
         }
-        public async Task<Movie> DetailAsync(Guid id)
+        public async Task<Movie> DetailsAsync(Guid id)
         {
             var result = await _context.Movies.FirstOrDefaultAsync(x => x.ID == id);
             return result;
         }
+
     }
 }
