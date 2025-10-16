@@ -1,4 +1,4 @@
-﻿@using Filminurk.Models.Movies
+﻿@using Filminurk.Core.Domain
 
 @model Filminurk.Models.Movies.MoviesCreateViewModel
 
@@ -66,7 +66,7 @@
             <label asp-for="MovieGenre" class="col-sm-2 col-form-label"></label>
             <div class="col-sm-10">
                 <select asp-for="MovieGenre" asp-items="Html.GetEnumSelectList<MovieGenre>()">
-                    <option value="">-- Vali Žanr --</option>
+                    <option value="">-- Vali Alamžanr --</option>
                 </select>
                 <span asp-validation-for="MovieGenre"></span>
             </div>
