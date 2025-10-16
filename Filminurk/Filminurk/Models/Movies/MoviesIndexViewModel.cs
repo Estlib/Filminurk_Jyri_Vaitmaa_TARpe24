@@ -11,6 +11,6 @@ namespace Filminurk.Models.Movies
 
         /* 2 õpilase valitud andmetüüpi */
         public string? CountryOfOrigin { get; set; }
-        public Genre? MovieGenre { get; set; }
+        public MovieGenre? MovieGenre { get; set; }
     }
 }

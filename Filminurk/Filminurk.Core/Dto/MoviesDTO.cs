@@ -20,8 +20,8 @@ namespace Filminurk.Core.Dto
 
         /* 3 õpilase valitud andmetüüpi */
         public string? CountryOfOrigin { get; set; }
-        public Genre? MovieGenre { get; set; }
-        public Genre? SubGenre { get; set; }
+        public MovieGenre? MovieGenre { get; set; }
+        public MovieGenre? SubGenre { get; set; }
 
         /* andmebaasi jaoks vajalikud */
         public DateTime? EntryCreatedAt { get; set; }
