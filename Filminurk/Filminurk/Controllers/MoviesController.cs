@@ -3,6 +3,7 @@ using Filminurk.Core.ServiceInterface;
 using Filminurk.Data;
 using Filminurk.Models.Movies;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Filminurk.Controllers
 {
@@ -10,7 +11,7 @@ namespace Filminurk.Controllers
     {
         private readonly FilminurkTARpe24Context _context;
         private readonly IMovieServices _movieServices;
-        public MoviesController 
+        public MoviesController
             (
                 FilminurkTARpe24Context context,
                 IMovieServices movieServices
@@ -41,28 +42,68 @@ namespace Filminurk.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(MoviesCreateViewModel vm)
         {
-            var dto = new MoviesDTO()
+            if (ModelState.IsValid)
             {
-                ID = vm.ID,
-                Title = vm.Title,
-                Description = vm.Description,
-                FirstPublished = vm.FirstPublished,
-                Director = vm.Director,
-                Actors = vm.Actors,
-                CurrentRating = vm.CurrentRating,
-                CountryOfOrigin = vm.CountryOfOrigin,
-                MovieGenre = vm.MovieGenre,
-                SubGenre = vm.SubGenre,
-                EntryCreatedAt = vm.EntryCreatedAt,
-                EntryModifiedAt = vm.EntryModifiedAt,
-            };
-            var result = await _movieServices.Create(dto);
-            if (result == null) 
+                var dto = new MoviesDTO()
+                {
+                    ID = vm.ID,
+                    Title = vm.Title,
+                    Description = vm.Description,
+                    FirstPublished = vm.FirstPublished,
+                    Director = vm.Director,
+                    Actors = vm.Actors,
+                    CurrentRating = vm.CurrentRating,
+                    CountryOfOrigin = vm.CountryOfOrigin,
+                    MovieGenre = vm.MovieGenre,
+                    SubGenre = vm.SubGenre,
+                    EntryCreatedAt = vm.EntryCreatedAt,
+                    EntryModifiedAt = vm.EntryModifiedAt,
+                };
+                var result = await _movieServices.Create(dto);
+                if (result == null)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+
+            return NotFound();
+
+        }
+        [HttpGet]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var movie = await _movieServices.DetailsAsync(id);
+
+            if (movie == null)
             {
-                return RedirectToAction(nameof(Index));
+                return NotFound();
+            }
+            var vm = new MoviesDeleteViewModel();
+            vm.ID = movie.ID;
+            vm.Title = movie.Title;
+            vm.Description = movie.Description;
+            vm.FirstPublished = movie.FirstPublished;
+            vm.CurrentRating = movie.CurrentRating;
+            vm.CountryOfOrigin = movie.CountryOfOrigin;
+            vm.MovieGenre = movie.MovieGenre;
+            vm.SubGenre = movie.SubGenre;
+            vm.EntryCreatedAt = movie.EntryCreatedAt;
+            vm.EntryModifiedAt = movie.EntryModifiedAt;
+            vm.Director = movie.Director;
+            vm.Actors = movie.Actors;
+
+            return View(vm);
+
+        }
+        [HttpPost]
+        public async Task<IActionResult> DeleteConfirmation(Guid id)
+        {
+            var movie = await _movieServices.Delete(id);
+            if (movie == null)
+            {
+                return NotFound();
             }
             return RedirectToAction(nameof(Index));
-
         }
     }
 }
