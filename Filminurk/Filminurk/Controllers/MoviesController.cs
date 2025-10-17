@@ -64,6 +64,7 @@ namespace Filminurk.Controllers
                 {
                     return RedirectToAction(nameof(Index));
                 }
+                return RedirectToAction(nameof(Index));
             }
 
             return NotFound();
@@ -96,7 +97,32 @@ namespace Filminurk.Controllers
             return View("CreateUpdate",vm);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Update(MoviesCreateUpdateViewModel vm)
+        {
+            var dto = new MoviesDTO()
+            {
+                ID = vm.ID,
+                Title = vm.Title,
+                Description = vm.Description,
+                FirstPublished = vm.FirstPublished,
+                CurrentRating = vm.CurrentRating,
+                CountryOfOrigin = vm.CountryOfOrigin,
+                MovieGenre = vm.MovieGenre,
+                SubGenre = vm.SubGenre,
+                EntryCreatedAt = vm.EntryCreatedAt,
+                EntryModifiedAt = vm.EntryModifiedAt,
+                Director = vm.Director,
+                Actors = vm.Actors,
+            };
+            var result = await _movieServices.Update(dto);
 
+            if(result == null)
+            {
+                return NotFound();
+            }
+            return RedirectToAction(nameof(Index));
+        }
 
         [HttpGet]
         public async Task<IActionResult> Delete(Guid id)
